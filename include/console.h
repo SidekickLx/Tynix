@@ -23,20 +23,17 @@ typedef enum real_color{
     rc_white = 15
 } color_t;
 
-static uint16_t *video_addr = (uint16_t *)0xB8000;
+void console_clear(); // clean the screen/terminal.
 
-static uint8_t cursor_x = 0;
-static uint8_t cursor_y = 0;
+void console_putc_color(char c, color_t bg, color_t fg); //print a signle character with color.
 
-void console_clear();
+void console_prints(char* cstr); //print a string
 
-void console_putc_color(char c, color_t bg, color_t fg);
+void console_prints_color(char* cstr, color_t bg, color_t fg); //print a string with color
 
-void console_prints(char* cstr);
+void console_printn(uint32_t num, uint16_t arithmetic); //print a number 10 or 16 arithmetic
 
-void console_prints_color(char* cstr, color_t bg, color_t fg);
-
-void console_printn_color(uint32_t num, uint16_t arithmetic, color_t bg, color_t fg);
+void console_printn_color(uint32_t num, uint16_t arithmetic, color_t bg, color_t fg); //print a number 10 or 16 arithmetic with color.
 
 
 #endif //INCLUDE_CONSOLE_H_

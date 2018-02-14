@@ -1,5 +1,11 @@
 #include "console.h"
 
+static uint16_t *video_addr = (uint16_t *)0xB8000;
+
+static uint8_t cursor_x = 0;
+static uint8_t cursor_y = 0;
+
+
 //move the cursor to where it should be
 static void move_cursor(){
     uint16_t cursor_loc = cursor_y * 80 + cursor_x;
@@ -82,6 +88,46 @@ void console_prints_color(char* cstr, color_t bg, color_t fg){
 	}
 }
 
+void console_printn(uint32_t num, uint16_t arithmetic) {
+    if(arithmetic == 16){
+        int tmp;
+	    char noZeroes = 1;
+        console_prints_color("0x", rc_black, rc_white);
+	    int i;
+	    for (i = 28; i >= 0; i -= 4) {
+		    tmp = (num >> i) & 0xF;
+		    if (tmp == 0 && noZeroes != 0)  continue;
+		    noZeroes = 0;
+		    if (tmp >= 0xA)
+		        console_prints_color((char *)tmp-0xA+'a', rc_black, rc_white);
+		    else
+		        console_prints_color((char *)tmp+'0', rc_black, rc_white);
+		    }
+    }else{ // arithmetic == 10 or else, set as defult = 10
+ 	    if (num == 0){
+		    console_putc_color('0', rc_black, rc_white);
+		    return;
+	    }
+	    uint32_t acc = num;
+	    char c[32];
+	    int j = 0;
+	    while (acc > 0){
+		    c[j] = '0' + acc % 10;
+		    acc /= 10;
+		    j++;
+	    }
+	    c[j] = 0;
+	    char c2[32];
+	    c2[j--] = 0;
+
+	    int k = 0;
+	    while(j >= 0) 
+	        c2[j--] = c[k++];
+            // print out the string 
+	    console_prints_color(c2, rc_black, rc_white);  
+    }	
+}
+
 void console_printn_color(uint32_t num, uint16_t arithmetic, color_t bg, color_t fg){
     if(arithmetic == 16){
         int tmp;
@@ -93,9 +139,9 @@ void console_printn_color(uint32_t num, uint16_t arithmetic, color_t bg, color_t
 		    if (tmp == 0 && noZeroes != 0)  continue;
 		    noZeroes = 0;
 		    if (tmp >= 0xA)
-		        console_prints_color(tmp-0xA+'a', bg, fg);
+		        console_prints_color((char *)tmp-0xA+'a', bg, fg);
 		    else
-		        console_prints_color(tmp+'0', bg, fg);
+		        console_prints_color((char *)tmp+'0', bg, fg);
 		    }
     }else{ // arithmetic == 10 or else, set as defult = 10
  	    if (num == 0){
