@@ -3,4 +3,4 @@
 floppy.img
 boot/*.o
 kernel/*.o
-
+kernel/settings.json
