@@ -1,6 +1,5 @@
 .vscode/settings.json
 .vscode/c_cpp_properties.json
+*.o
 floppy.img
-boot/*.o
-kernel/*.o
-kernel/settings.json
+*.json
