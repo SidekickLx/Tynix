@@ -3,3 +3,4 @@
 *.o
 floppy.img
 *.json
+tx_kernel
