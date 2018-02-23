@@ -22,22 +22,6 @@ struct gdt_entry_t {
 } __attribute__((packed)) gdt_entry_t;
 
 /* Simple and small GDT entries for booting only: */
-#define GDT_ENTRY_BOOT_CS	2
-#define GDT_ENTRY_BOOT_DS	3
-#define GDT_ENTRY_BOOT_TSS	4
-
-/*
- * Constructor for a conventional segment GDT (or LDT) entry.
- * This is a macro so it can be used in initializers.
- * From linux kernel, this might be wrong in Tynix, but it is unknown till now!
- */
-
-#define GDT_ENTRY(_flags, _base, _limit)			\
-	((((_base)  & 0xff000000ULL) << (56-24)) |	\
-	 (((_flags) & 0x0000f0ffULL) << 40) |	\
-	 (((_limit) & 0x000f0000ULL) << (48-16)) |	\
-	 (((_base)  & 0x00ffffffULL) << 16) |	\
-	 (((_limit) & 0x0000ffffULL)))
 
 
 /*
