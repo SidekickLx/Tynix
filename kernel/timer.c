@@ -13,9 +13,9 @@ void timer_handler(pt_regs *regs) {
 
     /* Every 18 clocks (approximately 1 second), we will
     *  display a message on the screen */
-    if (timer_ticks % 1000 == 0) {
-        printk("One second has passed\n");
-    }
+    //if (timer_ticks % 1000 == 0) {
+        //printk("One second has passed\n");
+    //}
 }
 
 void init_timer(uint32_t frequency) {
