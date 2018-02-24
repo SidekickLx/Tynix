@@ -1,6 +1,4 @@
-.vscode/settings.json
-.vscode/c_cpp_properties.json
+.vscode
 *.o
-floppy.img
 *.json
 tx_kernel
