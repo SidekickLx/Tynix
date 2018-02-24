@@ -1,4 +1,4 @@
-# Tynix
+# Tynix [![Build Status](https://travis-ci.org/SidekickLx/Tynix.svg?branch=master)](https://travis-ci.org/SidekickLx/Tynix)
 
 - A Shitty and usless toy OS
 
