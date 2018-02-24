@@ -43,6 +43,19 @@ void console_clear(){
     move_cursor();
 }
 
+void console_backspace() {
+	uint8_t attribute_byte = (0 << 4) | (15 & 0x0F);
+    uint16_t blank = 0x20 | (attribute_byte << 8 ); // a space symble with black background and white words
+                                                    // so it looks like NOTHING	
+	video_addr[cursor_y * 80 + cursor_x-1] = blank;
+	if(cursor_x > 1) cursor_x --;
+	else {
+		cursor_x = 80;
+		cursor_y --;
+	}
+	move_cursor();
+}
+
 void console_putc_color(char c, color_t bg, color_t fg){
     uint8_t back_color = (uint8_t)bg;
 	uint8_t fore_color = (uint8_t)fg;
