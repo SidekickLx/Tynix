@@ -22,7 +22,7 @@ C_FLAGS = -c -Wall -m32 -ggdb -gstabs+ -nostdinc -fno-builtin -fno-stack-protect
 LD_FLAGS = -T scripts/kernel.ld -m elf_i386 -nostdlib
 ASM_FLAGS = -f elf -g -F stabs
 
-test: $(S_OBJECTS) $(C_OBJECTS) link
+
 
 all: $(S_OBJECTS) $(C_OBJECTS) link update_image
 
@@ -38,6 +38,8 @@ all: $(S_OBJECTS) $(C_OBJECTS) link update_image
 link:
 	@echo 链接内核文件...
 	$(LD) $(LD_FLAGS) $(S_OBJECTS) $(C_OBJECTS) -o tx_kernel
+
+test: $(S_OBJECTS) $(C_OBJECTS) link
 
 .PHONY:clean
 clean:
