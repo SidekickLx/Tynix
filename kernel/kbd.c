@@ -1,7 +1,7 @@
 #include "types.h"
 #include "x86.h"
 #include "idt.h"
-#include "kbd.h"
+#include "boot.h"
 #include "console.h"
 
 unsigned char kbdus[128] =
