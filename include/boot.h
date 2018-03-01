@@ -14,4 +14,8 @@ void init_kbd();
 //initialize timer
 void init_timer(uint32_t frequency);
 
+//void init_systime(void);
+
+//initialize phmm
+void init_pmm();
 #endif //INCLUDE_BOOT_H_
