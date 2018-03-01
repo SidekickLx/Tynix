@@ -4,7 +4,16 @@
 #include "x86.h"
 #include "idt.h"
 
+#define CMOS_READ(addr) ({ \
+outb_p(0x80|addr,0x70); \
+inb_p(0x71); \
+})
+
+#define BCD_TO_BIN(val) ((val)=((val)&15) + ((val)>>4)*10)
+
 static uint32_t timer_ticks = 0;
+long startup_time;
+extern struct tm time;
 
 void timer_handler(pt_regs *regs) {
 
@@ -13,9 +22,9 @@ void timer_handler(pt_regs *regs) {
 
     /* Every 18 clocks (approximately 1 second), we will
     *  display a message on the screen */
-    //if (timer_ticks % 1000 == 0) {
-        //printk("One second has passed\n");
-    //}
+    if (timer_ticks % 1000 == 0) {
+        print_systime();
+    }
 }
 
 void init_timer(uint32_t frequency) {
@@ -45,4 +54,25 @@ void timer_wait(uint32_t seconds) {
 
     eticks = timer_ticks + (seconds * 18);
     while(timer_ticks < eticks);
+}
+
+void print_systime(void)
+{
+	do {
+		time.tm_sec = CMOS_READ(0);
+		time.tm_min = CMOS_READ(2);
+		time.tm_hour = CMOS_READ(4);
+		time.tm_mday = CMOS_READ(7);
+		time.tm_mon = CMOS_READ(8);
+		time.tm_year = CMOS_READ(9);
+	} while (time.tm_sec != CMOS_READ(0));
+	BCD_TO_BIN(time.tm_sec);
+	BCD_TO_BIN(time.tm_min);
+	BCD_TO_BIN(time.tm_hour);
+	BCD_TO_BIN(time.tm_mday);
+	BCD_TO_BIN(time.tm_mon);
+	BCD_TO_BIN(time.tm_year);
+	//time.tm_mon--;
+	//startup_time = kernel_mktime(&time);
+    printk("%d:%d:%d %d-%d-%d\n", time.tm_hour, time.tm_min, time.tm_sec, time.tm_mon, time.tm_mday, time.tm_year);  
 }
