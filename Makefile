@@ -24,7 +24,7 @@ ASM_FLAGS = -f elf -g -F stabs
 
 
 
-all: $(S_OBJECTS) $(C_OBJECTS) link update_image
+all: $(S_OBJECTS) $(C_OBJECTS) link update_iso
 
 # The automatic variable `$<' is just the first prerequisite
 .c.o:
@@ -41,36 +41,24 @@ link:
 
 test: $(S_OBJECTS) $(C_OBJECTS) link
 
+iso: $(S_OBJECTS) $(C_OBJECTS) link update_iso
+
 .PHONY:clean
 clean:
 	$(RM) $(S_OBJECTS) $(C_OBJECTS) tx_kernel
 
-.PHONY:update_image
-update_image:
-	sudo mount floppy.img /mnt/kernel
-	sudo cp tx_kernel /mnt/kernel/tx_kernel
-	sleep 1
-	sudo umount /mnt/kernel
-
-.PHONY:mount_image
-mount_image:
-	sudo mount floppy.img /mnt/kernel
-
-.PHONY:umount_image
-umount_image:
-	sudo umount /mnt/kernel
+.PHONY:update_iso
+update_iso:
+	cp tx_kernel isofiles/boot
+	grub-mkrescue -o os.iso isofiles
 
 .PHONY:qemu
 qemu:
-	qemu-system-i386 -fda floppy.img -boot a
-
-.PHONY:bochs
-bochs:
-	bochs -f scripts/bochsrc.txt
+	qemu-system-i386 -cdrom os.iso
 
 .PHONY:debug
 debug:
-	qemu -S -s -fda floppy.img -boot a &
+	qemu -S -s -cdrom os.iso -boot a &
 	sleep 1
 	cgdb -x scripts/gdbinit
 
