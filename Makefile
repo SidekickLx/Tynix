@@ -54,7 +54,7 @@ update_iso:
 
 .PHONY:qemu
 qemu:
-	qemu-system-i386 -cdrom os.iso
+	qemu-system-i386 -cdrom os.iso -boot a
 
 .PHONY:debug
 debug:
