@@ -29,11 +29,6 @@ SECTIONS
 {
 	. = 0x100000;
 	PROVIDE( kern_start = . );
-	.boot :
-    {
-        /* ensure that the multiboot header is at the beginning */
-        *(.multiboot_header)
-    }
 	.text :
 	{
 		*(.text)
