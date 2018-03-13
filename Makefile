@@ -28,15 +28,13 @@ all: $(S_OBJECTS) $(C_OBJECTS) link update_iso
 
 # The automatic variable `$<' is just the first prerequisite
 .c.o:
-	@echo 编译代码文件 $< ...
 	$(CC) $(C_FLAGS) $< -o $@
 
 .s.o:
-	@echo 编译汇编文件 $< ...
 	$(ASM) $(ASM_FLAGS) $<
 
 link:
-	@echo 链接内核文件...
+	@echo linking...
 	$(LD) $(LD_FLAGS) $(S_OBJECTS) $(C_OBJECTS) -o tx_kernel
 
 test: $(S_OBJECTS) $(C_OBJECTS) link
