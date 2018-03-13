@@ -1,5 +1,5 @@
 #include "idt.h"
-#include "console.h"
+#include "debug.h"
 #include "coreutils.h"
 
 // 中断描述符表

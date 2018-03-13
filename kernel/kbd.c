@@ -43,7 +43,7 @@ unsigned char kbdus[128] = {
     0,	/* All other keys are undefined */
 };	
 
-void keyboard_handler(struct regs *r) {
+void keyboard_handler(pt_regs *r) {
     unsigned char scancode;
 
     /* Read from the keyboard's data buffer */
@@ -74,5 +74,5 @@ void keyboard_handler(struct regs *r) {
 }
 
 void init_kbd() {
-    register_interrupt_handler(IRQ1, keyboard_handler);
+    register_interrupt_handler(33, &keyboard_handler);
 }

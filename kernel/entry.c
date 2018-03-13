@@ -1,5 +1,5 @@
 #include "types.h"
-#include "console.h"
+#include "debug.h"
 #include "pmm.h"
 #include "vmm.h"
 #include "boot.h"

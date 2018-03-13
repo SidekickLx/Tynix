@@ -1,31 +1,11 @@
-#include "types.h"
-#include "boot.h"
 #include "time.h"
-#include "x86.h"
-#include "idt.h"
-
-#define CMOS_READ(addr) ({ \
-outb_p(0x80|addr,0x70); \
-inb_p(0x71); \
-})
-
-#define BCD_TO_BIN(val) ((val)=((val)&15) + ((val)>>4)*10)
+#include "debug.h"
 
 static uint32_t timer_ticks = 0;
 long startup_time;
 extern struct tm time;
 
-void timer_handler(pt_regs *regs) {
-
-    /* Increment our 'tick count' */
-    timer_ticks++;
-
-    /* Every 18 clocks (approximately 1 second), we will
-    *  display a message on the screen */
-    if (timer_ticks % 1000 == 0) {
-        print_systime();
-    }
-}
+void timer_handler(pt_regs *regs);
 
 void init_timer(uint32_t frequency) {
     /* Installs 'timer_handler' to IRQ0 */
@@ -75,4 +55,16 @@ void print_systime(void)
 	//time.tm_mon--;
 	//startup_time = kernel_mktime(&time);
     printk("%d:%d:%d %d-%d-%d\n", time.tm_hour, time.tm_min, time.tm_sec, time.tm_mon, time.tm_mday, time.tm_year);  
+}
+
+void timer_handler(pt_regs *regs) {
+
+    /* Increment our 'tick count' */
+    timer_ticks++;
+
+    /* Every 18 clocks (approximately 1 second), we will
+    *  display a message on the screen */
+    if (timer_ticks % 1000 == 0) {
+        print_systime();
+    }
 }

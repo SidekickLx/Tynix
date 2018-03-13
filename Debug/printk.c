@@ -1,4 +1,4 @@
-#include "console.h"
+
 #include "coreutils.h"
 #include "vargs.h"
 #include "debug.h"

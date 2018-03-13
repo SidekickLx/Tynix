@@ -1,4 +1,4 @@
-#include "idt.h"
+
 #include "coreutils.h"
 #include "debug.h"
 #include "vmm.h"
