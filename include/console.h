@@ -29,6 +29,8 @@ void console_putc_color(char c, color_t bg, color_t fg); //print a signle charac
 
 void console_prints(char* cstr); //print a string
 
+void console_backspace(); //backspace
+
 void console_prints_color(char* cstr, color_t bg, color_t fg); //print a string with color
 
 void console_printn(uint32_t num, uint16_t arithmetic); //print a number 10 or 16 arithmetic

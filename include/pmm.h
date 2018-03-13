@@ -29,8 +29,7 @@ extern uint32_t phy_page_count;
 // 输出 BIOS 提供的物理内存布局
 void show_physical_memory_map();
 
-// 初始化物理内存管理
-//void init_phmm();
+void show_memory_map();
 
 // 返回一个内存页的物理地址
 uint32_t pmm_alloc_page();
